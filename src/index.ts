@@ -3,6 +3,9 @@ import express from "express";
 import mongoose from "mongoose";
 
 import usersRoute from "./routes/userRoutes"
+import productsRoute from "./routes/productsRoutes";
+import { setInitialProducts } from './services/productService';
+
 
 dotenv.config();
 
@@ -19,7 +22,13 @@ mongoose.connect(DB_URL,).then(()=>console.log(`connected successfully to db`)
 )
 
 app.use("/users",usersRoute)
+app.use("/products",productsRoute)
 
+
+
+
+//seed the products to db
+setInitialProducts()
 
 app.listen(PORT,()=>{
     console.log(`listening on port ${PORT} at http://localhost:${PORT}`);
