@@ -1,7 +1,7 @@
 import {Router,Request,Response} from "express"
-import { getActiveCartForUser } from "../services/cartService";
+import { addItemToCart, getActiveCartForUser } from "../services/cartService";
 import {validateJWT} from "../middlewares/validateJWT"
-import { ExtendRequest } from "../middlewares/validateJWT";
+import { ExtendRequest } from "../types/ExtendRequest";
 const router=Router()
 
 router.get("/", validateJWT, async (req:ExtendRequest, res) => {
@@ -20,4 +20,10 @@ router.get("/", validateJWT, async (req:ExtendRequest, res) => {
 
 
 
+router.post("/items",validateJWT,async(req:ExtendRequest,res)=>{
+    const userId=req.user._id;
+    const {productId,quantity} =req.body;
+    const {data,statusCode}=await addItemToCart({userId,productId,quantity})
+    res.status(statusCode).json(data)
+})
 export default router;

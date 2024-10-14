@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import {NextFunction,Request,Response} from "express"
 import jwt, { Secret } from "jsonwebtoken"
 import { User } from "../models/userModel";
+import { ExtendRequest } from '../types/ExtendRequest';
 
 dotenv.config();
 
@@ -10,9 +11,7 @@ dotenv.config();
 
 
 
-export interface ExtendRequest extends Request{
-    user?:any;
-}
+
 
 export const validateJWT=(req:ExtendRequest,res:Response,next:NextFunction)=>{
     const authorizationHeader= req.get('Authorization');

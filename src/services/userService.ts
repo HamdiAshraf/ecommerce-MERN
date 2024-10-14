@@ -60,5 +60,5 @@ const SECRET_KEY=process.env.SECRET_KEY as string;
 
 
 const generateJWT=(data:any)=>{
-    return jwt.sign(data,SECRET_KEY,{expiresIn:"1h"})
+    return jwt.sign(data,SECRET_KEY)
 }
