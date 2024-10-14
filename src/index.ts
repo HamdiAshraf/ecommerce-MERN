@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import usersRoute from "./routes/userRoutes"
 import productsRoute from "./routes/productsRoutes";
 import { setInitialProducts } from './services/productService';
-
+import cartRoute from "./routes/cartRoutes"
 
 dotenv.config();
 
@@ -23,6 +23,8 @@ mongoose.connect(DB_URL,).then(()=>console.log(`connected successfully to db`)
 
 app.use("/users",usersRoute)
 app.use("/products",productsRoute)
+app.use("/cart",cartRoute)
+
 
 
 
