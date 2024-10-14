@@ -43,4 +43,14 @@ router.delete("/items/:productId",validateJWT,async(req:ExtendRequest,res)=>{
     res.status(statusCode).json(data)
 })
 
+
+
+router.delete("/",validateJWT,async(req:ExtendRequest,res)=>{
+    const userId=req.user._id;
+    
+    
+    const {data,statusCode}=await clearCart({userId})
+    res.status(statusCode).json(data)
+})
+
 export default router;

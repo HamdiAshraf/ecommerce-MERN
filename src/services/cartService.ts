@@ -145,3 +145,14 @@ const updatedCart=await cart.save();
 
 
 }
+
+interface ClearCart{
+    userId:string;
+}
+export const clearCart=async({userId}:ClearCart)=>{
+    const cart=await getActiveCartForUser({userId});
+cart.items=[];
+cart.totalAmount=0;
+const updatedCart=await cart.save();
+return {statusCode:200,data:updatedCart}
+}
