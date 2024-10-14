@@ -1,5 +1,5 @@
 import {Router,Request,Response} from "express"
-import { addItemToCart, getActiveCartForUser, updateItemInCart } from "../services/cartService";
+import { addItemToCart, deleteItemInCart, getActiveCartForUser, updateItemInCart } from "../services/cartService";
 import {validateJWT} from "../middlewares/validateJWT"
 import { ExtendRequest } from "../types/ExtendRequest";
 const router=Router()
@@ -34,5 +34,13 @@ router.put("/items",validateJWT,async(req:ExtendRequest,res)=>{
     res.status(statusCode).json(data)
 })
 
+
+router.delete("/items/:productId",validateJWT,async(req:ExtendRequest,res)=>{
+    const userId=req.user._id;
+    const {productId}=req.params;
+    
+    const {data,statusCode}=await deleteItemInCart({userId,productId})
+    res.status(statusCode).json(data)
+})
 
 export default router;

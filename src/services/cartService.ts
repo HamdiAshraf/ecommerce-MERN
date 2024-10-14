@@ -111,3 +111,37 @@ export const updateItemInCart=async({productId,quantity,userId}:UpdateItemInCart
 
     return {statusCode:200,data:updatedCart}
 }
+
+interface DeleteItemInCart{
+    userId:string;
+    productId:any;
+}
+
+export const deleteItemInCart=async({userId,productId}:DeleteItemInCart)=>{
+    const cart=await getActiveCartForUser({userId});
+    //Does the item exists in cart
+    const existsInCart= cart.items.find((p)=>p.product.toString()===productId);
+
+    if(!existsInCart){
+        return {statusCode:400,data:"item does not exist in cart "}
+ 
+}
+const otherCartItems=cart.items.filter((p)=>p.product.toString()!==productId)
+
+let total=otherCartItems.reduce((sum,product)=>{
+    sum+=product.quantity * product.unitPrice;
+
+    return sum;
+},0)
+
+total+=existsInCart.quantity * existsInCart.unitPrice;
+
+cart.items=otherCartItems;
+cart.totalAmount=total;
+
+const updatedCart=await cart.save();
+
+    return {statusCode:200,data:updatedCart}
+
+
+}
