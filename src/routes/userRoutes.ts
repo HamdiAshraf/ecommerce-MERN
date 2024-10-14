@@ -17,26 +17,36 @@ router.post("/register",[
    
 ],async (req:Request,res:Response):Promise<void> =>{
 
-    const errors= validationResult(req)
-    if(!errors.isEmpty()){
-         res.status(400).json(errors.array())
-         return;
+    try{
+     const errors= validationResult(req)
+     if(!errors.isEmpty()){
+          res.status(400).json(errors.array())
+          return;
+     }
+     const {firstName,lastName,email,password}=req.body;
+ 
+     const {statusCode,data} =await register({firstName,lastName,email,password})
+ 
+      res.status(statusCode).json(data);
+    }catch(error){
+     res.status(500).json({ message: "Internal Server Error", error });
+
     }
-    const {firstName,lastName,email,password}=req.body;
-
-    const {statusCode,data} =await register({firstName,lastName,email,password})
-
-     res.status(statusCode).json(data);
 })
 
 
 
 router.post("/login",async (req,res)=>{
-    const {email,password}=req.body;
+    try{
+     const {email,password}=req.body;
 
-    const {statusCode,data} =await login({email,password})
+     const {statusCode,data} =await login({email,password})
+ 
+      res.status(statusCode).json(data);
+    }catch(err){
+     res.status(500).json({ message: "Internal Server Error", error });
 
-     res.status(statusCode).json(data);
+    }
 })
 
 export default router;
