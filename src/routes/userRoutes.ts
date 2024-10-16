@@ -43,7 +43,7 @@ router.post("/login",async (req,res)=>{
      const {statusCode,data} =await login({email,password})
  
       res.status(statusCode).json(data);
-    }catch(err){
+    }catch(error){
      res.status(500).json({ message: "Internal Server Error", error });
 
     }
