@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors"
 
 import usersRoute from "./routes/userRoutes"
 import productsRoute from "./routes/productsRoutes";
@@ -15,7 +16,7 @@ const PORT=process.env.PORT||3001;
 const DB_URL=process.env.DB_URL as string;
 
 app.use(express.json())
-
+app.use(cors())
 
 mongoose.connect(DB_URL,).then(()=>console.log(`connected successfully to db`)
 ).catch((err)=>console.log("DB ERROR",err)
