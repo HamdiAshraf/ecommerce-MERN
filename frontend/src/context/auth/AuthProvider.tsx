@@ -16,9 +16,10 @@ const AuthProvider : FC<PropsWithChildren>=({children})=>{
 
     }
 
+    const isAuthenticated=!!token;
 
     return (
-        <AuthContext.Provider value={{email,token,login}}>
+        <AuthContext.Provider value={{email,token,login,isAuthenticated}}>
             {children}
         </AuthContext.Provider>
     )

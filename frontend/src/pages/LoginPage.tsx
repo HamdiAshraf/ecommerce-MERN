@@ -8,42 +8,40 @@ import { BASE_URL } from "../constants/baseUrl";
 import { useAuth } from "../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const RegisterPage = () => {
+const LoginPage = () => {
     const [error, setError] = useState("");
-    const firstNameRef = useRef<HTMLInputElement>(null);
-    const lastNameRef = useRef<HTMLInputElement>(null);
+    
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     
     const { login } = useAuth();
+
+
     const navigate=useNavigate()
 
-
     const onSubmit = async () => {
-        const firstName = firstNameRef.current?.value;
-        const lastName = lastNameRef.current?.value;
+        
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
 
-        if (!firstName || !lastName || !email || !password) {
+        if ( !email || !password) {
             return;
         }
 
-        const response = await fetch(`${BASE_URL}/users/register`, {
+        const response = await fetch(`${BASE_URL}/users/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                firstName,
-                lastName,
+                
                 email,
                 password,
             }),
         });
 
         if (!response.ok) {
-            setError("Unable to register user, please try different credentials.");
+            setError("Unable to login user, please try different credentials.");
             return;
         }
 
@@ -75,23 +73,10 @@ const RegisterPage = () => {
                 }}
             >
                 <Typography variant="h5" sx={{ mb: 3 }}>
-                    Register New Account
+                Login to Your Account
                 </Typography>
 
-                <TextField
-                    inputRef={firstNameRef}
-                    label="First Name"
-                    name="firstName"
-                    fullWidth
-                    margin="normal"
-                />
-                <TextField
-                    inputRef={lastNameRef}
-                    label="Last Name"
-                    name="lastName"
-                    fullWidth
-                    margin="normal"
-                />
+               
                 <TextField
                     inputRef={emailRef}
                     label="Email"
@@ -115,7 +100,7 @@ const RegisterPage = () => {
                     sx={{ mt: 2 }}
                     fullWidth
                 >
-                    Register
+                    Login
                 </Button>
 
                 {error && <Typography sx={{ color: "red", mt: 2 }}>{error}</Typography>}
@@ -124,4 +109,4 @@ const RegisterPage = () => {
     );
 };
 
-export default RegisterPage;
+export default LoginPage;
