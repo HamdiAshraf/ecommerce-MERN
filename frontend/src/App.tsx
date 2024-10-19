@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage"
 import AuthProvider from "./context/auth/AuthProvider"
 import LoginPage from "./pages/LoginPage"
 import CartPage from "./pages/CartPage"
+import ProtectedRoutes from "./components/ProtectedRoutes"
 
 
 
@@ -19,7 +20,11 @@ function App() {
       <Route path="/" element={<HomePage/>} />
       <Route path="/register" element={<RegisterPage/>} />
       <Route path="/login" element={<LoginPage/>} />
+      <Route element={<ProtectedRoutes/>}>
+
       <Route path="/cart" element={<CartPage/>} />
+
+      </Route>
 
 
       
