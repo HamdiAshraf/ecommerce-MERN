@@ -11,11 +11,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useAuth } from "../context/auth/AuthContext";
-import { Button, Grid } from "@mui/material";
+import { Badge, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { ShoppingCart } from "@mui/icons-material";
 
 function Navbar() {
-  const { email, token, isAuthenticated ,logout} = useAuth();
+  const { email,  isAuthenticated ,logout} = useAuth();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
@@ -37,7 +38,11 @@ function Navbar() {
     handleCloseUserMenu();
   }
 
-  console.log(`FROM NAVBAR ${email} ${token}`);
+  const handleCart=()=>{
+    navigate('/cart')
+  }
+
+  
 
   return (
     <AppBar position="static">
@@ -74,9 +79,17 @@ function Navbar() {
                 Tech Hub
               </Typography>
             </Box>
-
+                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={4}>
+                  <IconButton aria-label="cart" onClick={handleCart}>
+                    <Badge badgeContent={4} color="secondary">
+                      <ShoppingCart sx={{color:"#ffffff"}} />
+                    </Badge>
+                  </IconButton>
+                
             {isAuthenticated ? (
+
               <Box sx={{ flexGrow: 0 }}>
+                
                 <Tooltip title="Open settings">
                   <Grid container alignItems="center" justifyContent="center" gap={2}>
                     <Grid item>
@@ -114,11 +127,13 @@ function Navbar() {
                   </MenuItem>
                 </Menu>
               </Box>
+              
             ) : (
               <Button variant="contained" onClick={handleLogin}>
                 Login
               </Button>
             )}
+            </Box>
           </Box>
         </Toolbar>
       </Container>
