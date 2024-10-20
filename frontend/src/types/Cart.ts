@@ -5,5 +5,5 @@ export interface CartItem{
     title:string;
     totalAmount:number;
     unitPrice:number;
-    productImage:string;
+    image:string;
 }

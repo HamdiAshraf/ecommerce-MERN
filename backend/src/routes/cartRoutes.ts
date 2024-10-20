@@ -10,7 +10,7 @@ router.get("/", validateJWT, async (req:ExtendRequest, res) => {
     
 
     try {
-        const cart = await getActiveCartForUser({ userId });
+        const cart = await getActiveCartForUser({ userId,populateProduct:true });
         res.status(200).json(cart); 
     } catch (error) {
         

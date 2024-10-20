@@ -1,8 +1,9 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import  Container  from "@mui/material/Container";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/auth/AuthContext";
 import { BASE_URL } from "../constants/baseUrl";
+import { useCart } from "../context/cart/CartContext";
 
 
 const CartPage=()=>{
@@ -10,6 +11,8 @@ const CartPage=()=>{
 
     const [cart,setCart]=useState()
     const [error,setError]=useState('')
+
+    const {cartItems,totalAmount} =useCart();
 
     useEffect(()=>{
         if(!token){
@@ -44,6 +47,12 @@ return (
         <Typography variant="h4">
             My Cart
         </Typography>
+
+        {cartItems.map((item)=>(
+            <Box>{item.title}</Box>
+            
+
+        ))}
         </Container>
 );
 }
