@@ -1,46 +1,17 @@
 import { Box, Typography } from "@mui/material";
 import  Container  from "@mui/material/Container";
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/auth/AuthContext";
-import { BASE_URL } from "../constants/baseUrl";
+
 import { useCart } from "../context/cart/CartContext";
 
 
 const CartPage=()=>{
-    const {token} =useAuth()
+    
 
-    const [cart,setCart]=useState()
-    const [error,setError]=useState('')
+    
 
-    const {cartItems,totalAmount} =useCart();
+    const {cartItems} =useCart();
 
-    useEffect(()=>{
-        if(!token){
-            return;
-        }
-
-        const fetchCart=async()=>{
-            const response =await fetch(`${BASE_URL}/cart`,{
-                headers:{
-                    Authorization:`Bearer ${token}`
-                }
-            })
-            if(!response.ok){
-                setError('failed to fetch user cart,please try again later')
-            }
-            const data=await response.json();
-
-            setCart(data)
-        }
-
-        fetchCart()
-        console.log({cart});
-        console.log({error});
-
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[token])
-
+    
 
 return (
     <Container sx={{ mt: 2 }}>

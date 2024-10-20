@@ -14,10 +14,13 @@ import { useAuth } from "../context/auth/AuthContext";
 import { Badge, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "@mui/icons-material";
+import { useCart } from "../context/cart/CartContext";
 
 function Navbar() {
   const { email,  isAuthenticated ,logout} = useAuth();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const {cartItems} =useCart();
+
   const navigate = useNavigate();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -57,6 +60,7 @@ function Navbar() {
               width: "100%",
             }}
           >
+            <Button sx={{color:"#fff"}} onClick={()=>navigate("/")}>
             <Box
               sx={{
                 display: "flex",
@@ -79,9 +83,10 @@ function Navbar() {
                 Tech Hub
               </Typography>
             </Box>
+            </Button>
                 <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center" gap={4}>
                   <IconButton aria-label="cart" onClick={handleCart}>
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={cartItems.length} color="secondary">
                       <ShoppingCart sx={{color:"#ffffff"}} />
                     </Badge>
                   </IconButton>
