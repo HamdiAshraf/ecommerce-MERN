@@ -3,7 +3,14 @@ import Container from "@mui/material/Container";
 import { useCart } from "../context/cart/CartContext";
 
 const CartPage = () => {
-    const { cartItems, totalAmount } = useCart();
+    const { cartItems, totalAmount,updateItemInCart } = useCart();
+
+    const handleQuantity=(productId:string,quantity:number)=>{
+        if(quantity<=0){
+            return;
+        }
+        updateItemInCart(productId,quantity);
+    }
 
     return (
         <Container fixed sx={{ mt: 4, mb: 4, bgcolor: "#f9f9f9", borderRadius: 2, padding: 3 }}>
@@ -34,8 +41,8 @@ const CartPage = () => {
                             </Box>
                         </Box>
                         <ButtonGroup variant="contained">
-                            <Button sx={{ bgcolor: "#4caf50" }}>+</Button>
-                            <Button sx={{ bgcolor: "#f44336" }}>−</Button>
+                            <Button onClick={()=> handleQuantity(item.productId,item.quantity+1)} sx={{ bgcolor: "#4caf50" }}>+</Button>
+                            <Button onClick={()=> handleQuantity(item.productId,item.quantity-1)} sx={{ bgcolor: "#f44336" }}>−</Button>
                         </ButtonGroup>
                     </Box>
                 ))}
