@@ -6,4 +6,5 @@ export interface CartItem{
     totalAmount:number;
     unitPrice:number;
     image:string;
+    quantity:number;
 }
