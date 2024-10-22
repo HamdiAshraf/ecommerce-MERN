@@ -1,4 +1,4 @@
-import { Cart } from "../models/cartModel";
+import { Cart, ICartItem } from "../models/cartModel";
 import { IOrderItem, Order } from "../models/orderModel";
 import { Product } from "../models/productModel";
 
@@ -125,34 +125,46 @@ interface DeleteItemInCart{
     productId:any;
 }
 
-export const deleteItemInCart=async({userId,productId}:DeleteItemInCart)=>{
-    const cart=await getActiveCartForUser({userId,populateProduct:false});
-    //Does the item exists in cart
-    const existsInCart= cart.items.find((p)=>p.product.toString()===productId);
-
-    if(!existsInCart){
-        return {statusCode:400,data:"item does not exist in cart "}
- 
-}
-const otherCartItems=cart.items.filter((p)=>p.product.toString()!==productId)
-
-let total=otherCartItems.reduce((sum,product)=>{
-    sum+=product.quantity * product.unitPrice;
-
-    return sum;
-},0)
-
-total+=existsInCart.quantity * existsInCart.unitPrice;
-
-cart.items=otherCartItems;
-cart.totalAmount=total;
-
-await cart.save();
-
-    return {statusCode:200,data:await getActiveCartForUser({userId,populateProduct:true})}
-
-
-}
+export const deleteItemInCart = async ({
+    userId,
+    productId,
+  }: DeleteItemInCart) => {
+    const cart = await getActiveCartForUser({ userId ,populateProduct:false});
+  
+    const existsInCart = cart.items.find(
+      (p) => p.product.toString() === productId
+    );
+  
+    if (!existsInCart) {
+      return { data: "Item does not exist in cart", statusCode: 400 };
+    }
+  
+    const otherCartItems = cart.items.filter(
+      (p) => p.product.toString() !== productId
+    );
+  
+    const total = calculateCartTotalItems({ cartItems: otherCartItems });
+  
+    cart.items = otherCartItems;
+    cart.totalAmount = total;
+  
+    await cart.save();
+  
+    return {
+      data: await getActiveCartForUser({ userId, populateProduct: true }),
+      statusCode: 200,
+    };
+  };
+  
+  const calculateCartTotalItems = ({ cartItems }: { cartItems: ICartItem[] }) => {
+    const total = cartItems.reduce((sum, product) => {
+      sum += product.quantity * product.unitPrice;
+      return sum;
+    }, 0);
+  
+    return total;
+  };
+  
 
 interface ClearCart{
     userId:string;

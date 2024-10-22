@@ -16,7 +16,7 @@ interface Props{
 }
 export default function ProductCard({_id,title,image,price}:Props) {
 
-  const {AddItemToCart} =useCart()
+  const {addItemToCart} =useCart()
 
   return (
     <Card >
@@ -35,7 +35,7 @@ export default function ProductCard({_id,title,image,price}:Props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant='contained' size="small" onClick={()=> AddItemToCart(_id)}>Add to Cart</Button>
+        <Button variant='contained' size="small" onClick={()=> addItemToCart(_id)}>Add to Cart</Button>
         
       </CardActions>
     </Card>
