@@ -1,10 +1,12 @@
 import { Box, Button, ButtonGroup, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import { useCart } from "../context/cart/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
     const { cartItems, totalAmount,updateItemInCart,removeItemInCart ,clearCart} = useCart();
 
+    const navigate=useNavigate();
     const handleQuantity=(productId:string,quantity:number)=>{
         if(quantity<=0){
             return;
@@ -15,6 +17,10 @@ const CartPage = () => {
 
     const handleRemoveItem=(productId:string)=>{
         removeItemInCart(productId)
+    }
+
+    const handleCheckout=()=>{
+        navigate("/checkout")
     }
 
     const renderCartItems= ()=>(
@@ -47,10 +53,11 @@ const CartPage = () => {
                     </ButtonGroup>
                 </Box>
             ))}
-        </Box><Box sx={{ mt: 4, textAlign: 'right' }}>
+        </Box><Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ mt: 4, textAlign: 'right' }}>
                 <Typography variant="h5" sx={{ color: "#333" }}>
                     Total Amount: ${totalAmount.toFixed(2)}
                 </Typography>
+                <Button variant="contained" onClick={()=>handleCheckout()}>Go To Checkout</Button>
             </Box></>
     )
     return (
@@ -63,6 +70,7 @@ const CartPage = () => {
             </Box>
             {cartItems.length ? (
         renderCartItems()
+        
       ) : (
         <Typography>
           Cart is empty. Please start shopping and add items first.
